@@ -8,7 +8,16 @@ const sequelize = new Sequelize("tuto_sequelize", process.env.DB_USERNAME, proce
     host: "localhost",
 } )
 
-sequelize.authenticate()
-.then(() => {
-    console.log("connexion à la database reussi")
-}).catch(err => console.log("connexion à la database reussi", err))
+//then and catch method
+// sequelize.authenticate()
+// .then(() => {
+//     console.log("connexion à la database reussi")
+// }).catch(err => console.log("connexion à la database échouée", err))
+
+//async await method
+const myFunction = async () => {
+    await sequelize.authenticate()
+    console.log("connexion à la database reussi");
+}
+
+myFunction();
