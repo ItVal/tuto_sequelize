@@ -29,6 +29,10 @@ myFunction();
 
 //model
 const User = sequelize.define("user", {
+    user_id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey:true
+    },
   username: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
