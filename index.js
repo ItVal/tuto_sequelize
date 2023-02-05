@@ -50,16 +50,20 @@ const User = sequelize.define("user", {
 });
 
 // sync() : crée la table si ça n'exite pas et ne fait rien si elle existe déjà. sync({force : true}) : crée la table si ça n'exite pas et supprime l'autre si ça exite, sync({alter : true}): Si la taple exite déjà dans la db, on la met à jour avec les nouvelles informations du modèle
-User.sync({ alter: true })
+User.sync()
   .then(() => {
     //insertion des données dans la table 
     return User.create({ 
+        user_id: 2,
         username:"Valentin",
         email:"valnas@gmail.com",
         password:"valnas123",
-        age: 28
-    }).then(() => {
-        console.log("insertion reussi")
-    }).catch((err) => {console.log(err)})
+        age: 26
+     })
+  })
+  //autres opérations sur les champs (incrementation, decrementation, ...)
+  .then((data) => {
+    data.increment({age : 2});
+    // console.log("incremention reussi, age égal maintenant à :", data.age);
   })
   .catch((err) => console.log("quelques choses s'est mal passée", err));
