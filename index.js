@@ -50,20 +50,44 @@ const User = sequelize.define("user", {
 });
 
 // sync() : crée la table si ça n'exite pas et ne fait rien si elle existe déjà. sync({force : true}) : crée la table si ça n'exite pas et supprime l'autre si ça exite, sync({alter : true}): Si la taple exite déjà dans la db, on la met à jour avec les nouvelles informations du modèle
-User.sync()
-  .then(() => {
-    //insertion des données dans la table 
-    return User.create({ 
-        user_id: 2,
-        username:"Valentin",
-        email:"valnas@gmail.com",
-        password:"valnas123",
-        age: 26
-     })
-  })
+User.sync({alter : true})
+//   .then(() => {
+//     //une insertion des données dans la table 
+//     return User.create({ 
+//         user_id: 2,
+//         username:"Valentin",
+//         email:"valnas@gmail.com",
+//         password:"valnas123",
+//         age: 26
+//      })
+//   })
+
+//plusieurs insertions à la fois
+return User.bulkCreate([
+    {
+        user_id: 3,
+        username:"Jons",
+        email:"jonas@gmail.com",
+        password:"jonas123",
+        age: 30
+    },
+    {
+        user_id: 4,
+        username:"Angela",
+        email:"ange@gmail.com",
+        password:"ange123",
+        age: 19
+    }
+])
   //autres opérations sur les champs (incrementation, decrementation, ...)
-  .then((data) => {
-    data.increment({age : 2});
-    // console.log("incremention reussi, age égal maintenant à :", data.age);
-  })
+//   .then((data) => {
+//     data.increment({age : 2});
+//     // console.log("incremention reussi, age égal maintenant à :", data.age);
+//   })
+
+.then((data) =>{
+    data.forEach((elt) =>{
+        console.log(elt.toJSON());
+    })
+})
   .catch((err) => console.log("quelques choses s'est mal passée", err));
