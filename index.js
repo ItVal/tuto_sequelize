@@ -31,11 +31,15 @@ myFunction();
 const User = sequelize.define("user", {
     user_id: {
         type: Sequelize.DataTypes.INTEGER,
-        primaryKey:true
+        primaryKey:true,
+        autoIncrement: true
     },
   username: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
+    validate:{
+        length: [4, 6]
+    }
   },
   email: {
     type: Sequelize.DataTypes.STRING,
@@ -65,20 +69,24 @@ User.sync({alter : true})
 //plusieurs insertions à la fois
 return User.bulkCreate([
     {
-        user_id: 3,
-        username:"Jons",
+        user_id: 11,
+        username:"G",
         email:"jonas@gmail.com",
         password:"jonas123",
         age: 30
     },
     {
-        user_id: 4,
-        username:"Angela",
+        user_id: 12,
+        username:"Ang",
         email:"ange@gmail.com",
         password:"ange123",
         age: 19
+    },
+    {
+        user_id: 13,
+        username:"Authentic"
     }
-])
+], {validate:true})
   //autres opérations sur les champs (incrementation, decrementation, ...)
 //   .then((data) => {
 //     data.increment({age : 2});
