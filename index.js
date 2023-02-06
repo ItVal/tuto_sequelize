@@ -99,8 +99,11 @@ return User.findAll({
    // attributes : {exclude: ['password']} //afiche tout sauf le password
     //attributes : ['username'], where: {age : 30}, //affiche tous les noms dont l'age est égal à 30
    // limit : 2, //affiche les deux première entrées
-    order : [["age", "ASC"]] // trie par ordre croissant (ASC) ou decroissant (DESC)
-
+   // order : [["age", "ASC"]] // trie par ordre croissant (ASC) ou decroissant (DESC)
+    attributes: ["username",
+                [sequelize.fn("SUM", sequelize.col("age")), "somme d'Age"]], //SELECT `username`, SUM(`age`) AS `somme d'Age` FROM `users` AS `user` GROUP BY `username`;
+    group : 'username' //fait la somme d'age de l'attribut "username" ayant la même valeur. Grouping
+    
 
 })
   .then((data) => {
