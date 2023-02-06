@@ -104,9 +104,15 @@ return User.findAll({
     // attributes: ["username",
     //             [sequelize.fn("SUM", sequelize.col("age")), "somme d'Age"]], //SELECT `username`, SUM(`age`) AS `somme d'Age` FROM `users` AS `user` GROUP BY `username`;
     // group : 'username' //fait la somme d'age de l'attribut "username" ayant la même valeur. Grouping
-    where: {
-      [Op.or]: {username: 'Valentin', age: 19} //affiche les elts dont username = Valentin et elts dont age = 19
-    },
+    // where: {
+    //   [Op.or]: {username: 'Angela', age: 19} //Op.or = ou, Op.and = et, dans ce cas, ç'affiche les elts dont username = Valentin et elts dont age = 19. SELECT `user_id`, `username`, `email`, `password`, `age`, `createdAt`, `updatedAt` FROM `users` AS `user` WHERE (`user`.`username` = 'Valentin' OR/AND `user`.`age` = 19);
+    // },
+
+    where:{
+      age:{
+        [Op.gt]:21 //Op.gt structement supérieur à >, Op.lt structement inférieur à <, Op.eq structement égal à ==. Dans ce cas,ç'affiche tous les utilisateurs dont age > 21
+      }
+    }
 
 })
   .then((data) => {
