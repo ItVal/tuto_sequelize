@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const {DataTypes, Op} = Sequelize ;
+const { DataTypes, Op } = Sequelize;
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -38,9 +38,7 @@ const User = sequelize.define("user", {
   username: {
     type: DataTypes.STRING,
     allowNull: false,
-    validate: {
-      length: [4, 6],
-    },
+    
   },
   email: {
     type: DataTypes.STRING,
@@ -55,8 +53,7 @@ const User = sequelize.define("user", {
 });
 
 // sync() : crée la table si ça n'exite pas et ne fait rien si elle existe déjà. sync({force : true}) : crée la table si ça n'exite pas et supprime l'autre si ça exite, sync({alter : true}): Si la taple exite déjà dans la db, on la met à jour avec les nouvelles informations du modèle
-User.sync({ alter: true });
-//   .then(() => {
+User.sync({ alter: true }).then(() => {
 //     //une insertion des données dans la table
 //     return User.create({
 //         user_id: 2,
@@ -94,33 +91,36 @@ User.sync({ alter: true });
 //     // console.log("incremention reussi, age égal maintenant à :", data.age);
 //   })
 
-//models query (requete) : Attributes => sequelize.fn("SUM, MAX, MIN, AVG"), exclude, include
-return User.findAll({
-   //attributes: [[sequelize.fn("AVG", sequelize.col("age")), "Moyenne d'Age"]],
-   // attributes : {exclude: ['password']} //afiche tout sauf le password
-    //attributes : ['username'], where: {age : 30}, //affiche tous les noms dont l'age est égal à 30
-   // limit : 2, //affiche les deux première entrées
-   // order : [["age", "ASC"]] // trie par ordre croissant (ASC) ou decroissant (DESC)
-    // attributes: ["username",
-    //             [sequelize.fn("SUM", sequelize.col("age")), "somme d'Age"]], //SELECT `username`, SUM(`age`) AS `somme d'Age` FROM `users` AS `user` GROUP BY `username`;
-    // group : 'username' //fait la somme d'age de l'attribut "username" ayant la même valeur. Grouping
-    // where: {
-    //   [Op.or]: {username: 'Angela', age: 19} //Op.or = ou, Op.and = et, dans ce cas, ç'affiche les elts dont username = Valentin et elts dont age = 19. SELECT `user_id`, `username`, `email`, `password`, `age`, `createdAt`, `updatedAt` FROM `users` AS `user` WHERE (`user`.`username` = 'Valentin' OR/AND `user`.`age` = 19);
-    // },
+//models query (requete) : findAll() methode
+//return User.findAll({
+//attributes: [[sequelize.fn("AVG", sequelize.col("age")), "Moyenne d'Age"]],
+// attributes : {exclude: ['password']} //afiche tout sauf le password
+//attributes : ['username'], where: {age : 30}, //affiche tous les noms dont l'age est égal à 30
+// limit : 2, //affiche les deux première entrées
+// order : [["age", "ASC"]] // trie par ordre croissant (ASC) ou decroissant (DESC)
+// attributes: ["username",
+//             [sequelize.fn("SUM", sequelize.col("age")), "somme d'Age"]], //SELECT `username`, SUM(`age`) AS `somme d'Age` FROM `users` AS `user` GROUP BY `username`;
+// group : 'username' //fait la somme d'age de l'attribut "username" ayant la même valeur. Grouping
+// where: {
+//   [Op.or]: {username: 'Angela', age: 19} //Op.or = ou, Op.and = et, dans ce cas, ç'affiche les elts dont username = Valentin et elts dont age = 19. SELECT `user_id`, `username`, `email`, `password`, `age`, `createdAt`, `updatedAt` FROM `users` AS `user` WHERE (`user`.`username` = 'Valentin' OR/AND `user`.`age` = 19);
+// },
 
-    // where:{
-    //   age:{
-    //     [Op.gt]:21 //Op.gt structement supérieur à >, Op.lt structement inférieur à <, Op.eq structement égal à ==. Dans ce cas,ç'affiche tous les utilisateurs dont age > 21
-    //   }
-    // }
+// where:{
+//   age:{
+//     [Op.gt]:21 //Op.gt structement supérieur à >, Op.lt structement inférieur à <, Op.eq structement égal à ==. Dans ce cas,ç'affiche tous les utilisateurs dont age > 21
+//   }
+// }
 
-    where : sequelize.where(sequelize.fn("char_length", sequelize.col('username')), 6) //affiche la valeur du username dont le nomtre de lettre étal à 6. 
-    
+// where : sequelize.where(sequelize.fn("char_length", sequelize.col('username')), 6) //affiche la valeur du username dont le nomtre de lettre étal à 6.
 
+//})
+
+//models query (requete) : update() methode
+return User.update({ username: 'lela' }, { 
+  where: { age: 19 }
+  });
 })
   .then((data) => {
-    data.forEach((elt) => {
-      console.log(elt.toJSON());
-    });
+      console.log(data);
   })
   .catch((err) => console.log("quelques choses s'est mal passée", err));
