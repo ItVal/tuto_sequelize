@@ -120,8 +120,11 @@ User.sync({ alter: true }).then(() => {
 //   where: { age: 19 } //partout où age égal à 19, on modifie le nom pa lela
 //   });
 
-//models query (requete) : destroy() methode
- return User.destroy({where : { username: 'leila' }}); //supprime tous les enregistrements dont le nom égal à lela
+// //models query (requete) : destroy() methode
+//  return User.destroy({where : { username: 'leila' }}); //supprime tous les enregistrements dont le nom égal à lela
+
+//models query (requete) : max, min & sum() methode
+return User.sum("age"); //additione les ages
 
 
 })
