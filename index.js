@@ -116,9 +116,14 @@ User.sync({ alter: true }).then(() => {
 //})
 
 //models query (requete) : update() methode
-return User.update({ username: 'lela' }, { 
-  where: { age: 19 }
-  });
+// return User.update({ username: 'lela' }, { 
+//   where: { age: 19 } //partout où age égal à 19, on modifie le nom pa lela
+//   });
+
+//models query (requete) : destroy() methode
+ return User.destroy({where : { username: 'leila' }}); //supprime tous les enregistrements dont le nom égal à lela
+
+
 })
   .then((data) => {
       console.log(data);
