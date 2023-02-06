@@ -95,7 +95,7 @@ User.sync({alter : true})
 
 
 //models query (requete)
-return User.findAll()
+return User.findAll({attributes: ['username', 'password']})
 .then((data) =>{
     data.forEach((elt) =>{
         console.log(elt.toJSON());
