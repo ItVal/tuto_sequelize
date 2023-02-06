@@ -29,17 +29,17 @@ myFunction();
 
 //model
 const User = sequelize.define("user", {
-    user_id: {
-        type: Sequelize.DataTypes.INTEGER,
-        primaryKey:true,
-        autoIncrement: true
-    },
+  user_id: {
+    type: Sequelize.DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   username: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    validate:{
-        length: [4, 6]
-    }
+    validate: {
+      length: [4, 6],
+    },
   },
   email: {
     type: Sequelize.DataTypes.STRING,
@@ -54,10 +54,10 @@ const User = sequelize.define("user", {
 });
 
 // sync() : crée la table si ça n'exite pas et ne fait rien si elle existe déjà. sync({force : true}) : crée la table si ça n'exite pas et supprime l'autre si ça exite, sync({alter : true}): Si la taple exite déjà dans la db, on la met à jour avec les nouvelles informations du modèle
-User.sync({alter : true})
+User.sync({ alter: true });
 //   .then(() => {
-//     //une insertion des données dans la table 
-//     return User.create({ 
+//     //une insertion des données dans la table
+//     return User.create({
 //         user_id: 2,
 //         username:"Valentin",
 //         email:"valnas@gmail.com",
@@ -87,18 +87,21 @@ User.sync({alter : true})
 //         username:"Authentic"
 //     }
 // ], {validate:true})
-  //autres opérations sur les champs (incrementation, decrementation, ...)
+//autres opérations sur les champs (incrementation, decrementation, ...)
 //   .then((data) => {
 //     data.increment({age : 2});
 //     // console.log("incremention reussi, age égal maintenant à :", data.age);
 //   })
 
+//models query (requete) : Attributes => sequelize.fn("SUM, MAX, MIN, AVG"), exclude, include
+return User.findAll({
+   attributes: [[sequelize.fn("AVG", sequelize.col("age")), "Moyenne d'Age"]],
 
-//models query (requete)
-return User.findAll({attributes: ['username', 'password']})
-.then((data) =>{
-    data.forEach((elt) =>{
-        console.log(elt.toJSON());
-    })
+
 })
+  .then((data) => {
+    data.forEach((elt) => {
+      console.log(elt.toJSON());
+    });
+  })
   .catch((err) => console.log("quelques choses s'est mal passée", err));
