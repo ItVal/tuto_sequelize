@@ -98,8 +98,9 @@ return User.findAll({
    //attributes: [[sequelize.fn("AVG", sequelize.col("age")), "Moyenne d'Age"]],
    // attributes : {exclude: ['password']} //afiche tout sauf le password
     //attributes : ['username'], where: {age : 30}, //affiche tous les noms dont l'age est égal à 30
-    limit : 2, //affiche les deux première entrées
- 
+   // limit : 2, //affiche les deux première entrées
+    order : [["age", "ASC"]] // trie par ordre croissant (ASC) ou decroissant (DESC)
+
 
 })
   .then((data) => {
