@@ -1,4 +1,5 @@
 const Sequelize = require("sequelize");
+const {DataTypes, Op} = Sequelize ;
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -30,25 +31,25 @@ myFunction();
 //model
 const User = sequelize.define("user", {
   user_id: {
-    type: Sequelize.DataTypes.INTEGER,
+    type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
   username: {
-    type: Sequelize.DataTypes.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
     validate: {
       length: [4, 6],
     },
   },
   email: {
-    type: Sequelize.DataTypes.STRING,
+    type: DataTypes.STRING,
   },
   password: {
-    type: Sequelize.DataTypes.STRING,
+    type: DataTypes.STRING,
   },
   age: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     defaultValue: 23,
   },
 });
@@ -100,10 +101,12 @@ return User.findAll({
     //attributes : ['username'], where: {age : 30}, //affiche tous les noms dont l'age est égal à 30
    // limit : 2, //affiche les deux première entrées
    // order : [["age", "ASC"]] // trie par ordre croissant (ASC) ou decroissant (DESC)
-    attributes: ["username",
-                [sequelize.fn("SUM", sequelize.col("age")), "somme d'Age"]], //SELECT `username`, SUM(`age`) AS `somme d'Age` FROM `users` AS `user` GROUP BY `username`;
-    group : 'username' //fait la somme d'age de l'attribut "username" ayant la même valeur. Grouping
-    
+    // attributes: ["username",
+    //             [sequelize.fn("SUM", sequelize.col("age")), "somme d'Age"]], //SELECT `username`, SUM(`age`) AS `somme d'Age` FROM `users` AS `user` GROUP BY `username`;
+    // group : 'username' //fait la somme d'age de l'attribut "username" ayant la même valeur. Grouping
+    where: {
+      [Op.or]: {username: 'Valentin', age: 19} //affiche les elts dont username = Valentin et elts dont age = 19
+    },
 
 })
   .then((data) => {
