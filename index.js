@@ -108,11 +108,14 @@ return User.findAll({
     //   [Op.or]: {username: 'Angela', age: 19} //Op.or = ou, Op.and = et, dans ce cas, ç'affiche les elts dont username = Valentin et elts dont age = 19. SELECT `user_id`, `username`, `email`, `password`, `age`, `createdAt`, `updatedAt` FROM `users` AS `user` WHERE (`user`.`username` = 'Valentin' OR/AND `user`.`age` = 19);
     // },
 
-    where:{
-      age:{
-        [Op.gt]:21 //Op.gt structement supérieur à >, Op.lt structement inférieur à <, Op.eq structement égal à ==. Dans ce cas,ç'affiche tous les utilisateurs dont age > 21
-      }
-    }
+    // where:{
+    //   age:{
+    //     [Op.gt]:21 //Op.gt structement supérieur à >, Op.lt structement inférieur à <, Op.eq structement égal à ==. Dans ce cas,ç'affiche tous les utilisateurs dont age > 21
+    //   }
+    // }
+
+    where : sequelize.where(sequelize.fn("char_length", sequelize.col('username')), 6) //affiche la valeur du username dont le nomtre de lettre étal à 6. 
+    
 
 })
   .then((data) => {
