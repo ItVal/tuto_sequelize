@@ -67,32 +67,35 @@ User.sync({alter : true})
 //   })
 
 //plusieurs insertions à la fois
-return User.bulkCreate([
-    {
-        user_id: 11,
-        username:"G",
-        email:"jonas@gmail.com",
-        password:"jonas123",
-        age: 30
-    },
-    {
-        user_id: 12,
-        username:"Ang",
-        email:"ange@gmail.com",
-        password:"ange123",
-        age: 19
-    },
-    {
-        user_id: 13,
-        username:"Authentic"
-    }
-], {validate:true})
+// return User.bulkCreate([
+//     {
+//         user_id: 11,
+//         username:"G",
+//         email:"jonas@gmail.com",
+//         password:"jonas123",
+//         age: 30
+//     },
+//     {
+//         user_id: 12,
+//         username:"Ang",
+//         email:"ange@gmail.com",
+//         password:"ange123",
+//         age: 19
+//     },
+//     {
+//         user_id: 13,
+//         username:"Authentic"
+//     }
+// ], {validate:true})
   //autres opérations sur les champs (incrementation, decrementation, ...)
 //   .then((data) => {
 //     data.increment({age : 2});
 //     // console.log("incremention reussi, age égal maintenant à :", data.age);
 //   })
 
+
+//models query (requete)
+return User.findAll()
 .then((data) =>{
     data.forEach((elt) =>{
         console.log(elt.toJSON());
