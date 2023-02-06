@@ -95,8 +95,10 @@ User.sync({ alter: true });
 
 //models query (requete) : Attributes => sequelize.fn("SUM, MAX, MIN, AVG"), exclude, include
 return User.findAll({
-   attributes: [[sequelize.fn("AVG", sequelize.col("age")), "Moyenne d'Age"]],
+   //attributes: [[sequelize.fn("AVG", sequelize.col("age")), "Moyenne d'Age"]],
+    attributes : {exclude: ['password']} //afiche tout sauf le password
 
+    
 
 })
   .then((data) => {
