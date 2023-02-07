@@ -80,14 +80,23 @@ Student.sync({ alter: true }).then(() => {
 
     //     },
     // ], {validate : true})
-    //requetes
+    //requetes : SELECT `students_id`, `name`, `favorite_class`, `school_year`, `subscribed_to_wittcode`, `createdAt`, `updatedAt` FROM `Student` AS `Student` WHERE (`Student`.`favorite_class` = 'Computer Science' OR `Student`.`subscribed_to_wittcode` = true);
+    // return Student.findAll({
+    //   where: {
+    //     [Op.or]: {
+    //       favorite_class: 'Computer Science',
+    //       subscribed_to_wittcode: true
+    //     }
+    //   }});
+
+    //requete : selectionn, compte et groupe le nmbre d'étudiants par school_year. SELECT `school_year`, COUNT(`school_year`) AS `nber_student` FROM `Student` AS `Student` GROUP BY `school_year`;
     return Student.findAll({
-      where: {
-        [Op.or]: {
-          favorite_class: 'Computer Science',
-          subscribed_to_wittcode: true
-        }
-      }});
+        attributes: [
+            'school_year',
+            [sequelize.fn('COUNT', sequelize.col('school_year')), 'nber_student']  
+        ],
+        group : 'school_year' 
+    });
 
   }).then((data) => {
     data.forEach((elt) => {
