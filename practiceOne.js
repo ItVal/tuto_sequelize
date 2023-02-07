@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const { DataTypes } = Sequelize;
+const { DataTypes, Op } = Sequelize;
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -14,65 +14,84 @@ const sequelize = new Sequelize(
   }
 );
 
-const Student = sequelize.define("Student", {
+const Student = sequelize.define(
+  "Student",
+  {
     students_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     name: {
-        type: DataTypes.STRING(255),
-        allowNullValues: false,
-        validate: {
-            len:[4-20]                                                                   
-        }  
+      type: DataTypes.STRING(255),
+      allowNullValues: false,
+      validate: {
+        len: [4 - 20],
+      },
     },
     favorite_class: {
-        type: DataTypes.STRING(25),
-        defaultValue: "Computer Science"
+      type: DataTypes.STRING(25),
+      defaultValue: "Computer Science",
     },
     school_year: {
-        type: DataTypes.INTEGER,
-        allowNullValues: false
+      type: DataTypes.INTEGER,
+      allowNullValues: false,
     },
     subscribed_to_wittcode: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true
-    }
-}, {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+  },
+  {
     freezeTableName: true,
-    timesTamps : false,
-})
-Student.sync ({alter : true}).then (() =>{
+    timesTamps: false,
+  }
+);
+Student.sync({ alter: true }).then(() => {
     console.log("table created");
-    Student.bulkCreate([
-        {
-            name: "James LeBron ",
-            school_year: 9,
+     //entrer des données dans notre table student
+    // Student.bulkCreate([
+    //     {
+    //         name: "James LeBron ",
+    //         school_year: 9,
 
-        },
-        {
-            name: "James LeBron ",
-            favorite_class: "Football",
-            school_year: 8,
-            subscribed_to_wittcode: false
-        },
-        {
-            name: "Safi Getrude",
-            favorite_class: "BasketBall",
-            school_year: 6,
-            subscribed_to_wittcode: true
-        },
-        {
-            name: "ValNasNvj",
-            favorite_class: "VolleyBall",
-            school_year: 10,
-            subscribed_to_wittcode: false
-        },
-        {
-            name: "Admin Atete",
-            school_year: 12,
+    //     },
+    //     {
+    //         name: "James LeBron ",
+    //         favorite_class: "Football",
+    //         school_year: 8,
+    //         subscribed_to_wittcode: false
+    //     },
+    //     {
+    //         name: "Safi Getrude",
+    //         favorite_class: "BasketBall",
+    //         school_year: 6,
+    //         subscribed_to_wittcode: true
+    //     },
+    //     {
+    //         name: "ValNasNvj",
+    //         favorite_class: "VolleyBall",
+    //         school_year: 10,
+    //         subscribed_to_wittcode: false
+    //     },
+    //     {
+    //         name: "Admin Atete",
+    //         school_year: 12,
 
-        },
-    ], {validate : true})
-}).catch (err => console.error(err));
+    //     },
+    // ], {validate : true})
+    //requetes
+    return Student.findAll({
+      where: {
+        [Op.or]: {
+          favorite_class: 'Computer Science',
+          subscribed_to_wittcode: true
+        }
+      }});
+
+  }).then((data) => {
+    data.forEach((elt) => {
+      console.log(elt.toJSON());
+    });
+  })
+.catch((err) => console.error("Quelque chose s'est mal passé", err));
