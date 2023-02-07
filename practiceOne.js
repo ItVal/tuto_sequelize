@@ -39,7 +39,40 @@ const Student = sequelize.define("Student", {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     }
+}, {
+    freezeTableName: true,
+    timesTamps : false,
 })
-Student.sync ().then (() =>{
+Student.sync ({alter : true}).then (() =>{
     console.log("table created");
+    Student.bulkCreate([
+        {
+            name: "James LeBron ",
+            school_year: 9,
+
+        },
+        {
+            name: "James LeBron ",
+            favorite_class: "Football",
+            school_year: 8,
+            subscribed_to_wittcode: false
+        },
+        {
+            name: "Safi Getrude",
+            favorite_class: "BasketBall",
+            school_year: 6,
+            subscribed_to_wittcode: true
+        },
+        {
+            name: "ValNasNvj",
+            favorite_class: "VolleyBall",
+            school_year: 10,
+            subscribed_to_wittcode: false
+        },
+        {
+            name: "Admin Atete",
+            school_year: 12,
+
+        },
+    ], {validate : true})
 }).catch (err => console.error(err));
