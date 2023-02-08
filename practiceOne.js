@@ -47,9 +47,10 @@ const Student = sequelize.define(
     timesTamps: false,
   }
 );
-Student.sync({ alter: true }).then(() => {
+Student.sync({ alter: true })
+  .then(() => {
     console.log("table created");
-     //entrer des données dans notre table student
+    //entrer des données dans notre table student
     // Student.bulkCreate([
     //     {
     //         name: "James LeBron ",
@@ -90,44 +91,51 @@ Student.sync({ alter: true }).then(() => {
     //   }});
 
     //requete : selectionn, compte et groupe le nmbre d'étudiants par school_year. SELECT `school_year`, COUNT(`school_year`) AS `nber_student` FROM `Student` AS `Student` GROUP BY `school_year`;
-//     return Student.findAll({
-//         attributes: [
-//             'school_year',
-//             [sequelize.fn('COUNT', sequelize.col('school_year')), 'nber_student']  
-//         ],
-//         group : 'school_year' 
-//     });
+    //     return Student.findAll({
+    //         attributes: [
+    //             'school_year',
+    //             [sequelize.fn('COUNT', sequelize.col('school_year')), 'nber_student']
+    //         ],
+    //         group : 'school_year'
+    //     });
 
-//   }).then((data) => {
-//     data.forEach((elt) => {
-//       console.log(elt.toJSON());
-//     });
-//   })
+    //   }).then((data) => {
+    //     data.forEach((elt) => {
+    //       console.log(elt.toJSON());
+    //     });
+    //   })
 
-//autre méthode que toJson() pour afficher les données d'une table en console
-// return Student.findAll();
-// return Student.findAll({ row:true});
-// return Student.findAll({
-//     where : { school_year: 8 },
-//     raw : true
-// });
+    //autre méthode que toJson() pour afficher les données d'une table en console
+    // return Student.findAll();
+    // return Student.findAll({ row:true});
+    // return Student.findAll({
+    //     where : { school_year: 8 },
+    //     raw : true
+    // });
 
-//FindByPk()
-// return Student.findByPk(4);
+    //FindByPk()
+    // return Student.findByPk(4);
 
-//FindOne()
-return Student.findOne({ 
-    where : {
-        school_year : {
-            [Op.or] : {
-                [Op.lt] : 12,
-                [Op.eq] : null,
-            }
-        }
-    }
-});
+    //FindOne()
+    // return Student.findOne({
+    //     where : {
+    //         school_year : {
+    //             [Op.or] : {
+    //                 [Op.lt] : 12,
+    //                 [Op.eq] : null,
+    //             }
+    //         }
+    //     }
+    // });
 
-}).then((data) => {
-  console.log(data.toJSON());
-})
-.catch((err) => console.error("Quelque chose s'est mal passé", err));
+    //findOrCreate()
+    return Student.findOrCreate({
+      where: {
+        name: "Angel Litongo"
+      }
+    });
+  })
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((err) => console.error("Quelque chose s'est mal passé", err));
