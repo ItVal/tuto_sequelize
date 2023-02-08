@@ -113,10 +113,10 @@ Student.sync({ alter: true })
     //     raw : true
     // });
 
-    //FindByPk()
+    //FindByPk() : trouve une clé primaire
     // return Student.findByPk(4);
 
-    //FindOne()
+    //FindOne() : trouve un élément suivant un critère
     // return Student.findOne({
     //     where : {
     //         school_year : {
@@ -128,7 +128,7 @@ Student.sync({ alter: true })
     //     }
     // });
 
-    //findOrCreate()
+    //findOrCreate() : trouve un élément s'il existe et en crée un s'il n'existe pas encore
     return Student.findOrCreate({
       where: {
         name: "Angel Litongo"
