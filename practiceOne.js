@@ -90,17 +90,29 @@ Student.sync({ alter: true }).then(() => {
     //   }});
 
     //requete : selectionn, compte et groupe le nmbre d'étudiants par school_year. SELECT `school_year`, COUNT(`school_year`) AS `nber_student` FROM `Student` AS `Student` GROUP BY `school_year`;
-    return Student.findAll({
-        attributes: [
-            'school_year',
-            [sequelize.fn('COUNT', sequelize.col('school_year')), 'nber_student']  
-        ],
-        group : 'school_year' 
-    });
+//     return Student.findAll({
+//         attributes: [
+//             'school_year',
+//             [sequelize.fn('COUNT', sequelize.col('school_year')), 'nber_student']  
+//         ],
+//         group : 'school_year' 
+//     });
 
-  }).then((data) => {
-    data.forEach((elt) => {
-      console.log(elt.toJSON());
-    });
-  })
+//   }).then((data) => {
+//     data.forEach((elt) => {
+//       console.log(elt.toJSON());
+//     });
+//   })
+
+//autre méthode que toJson() pour afficher les données d'une table en console
+// return Student.findAll();
+// return Student.findAll({ row:true});
+return Student.findAll({
+    where : { school_year: 8 },
+    raw : true
+});
+
+}).then((data) => {
+  console.log(data);
+})
 .catch((err) => console.error("Quelque chose s'est mal passé", err));
