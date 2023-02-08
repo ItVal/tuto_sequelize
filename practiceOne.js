@@ -131,7 +131,10 @@ Student.sync({ alter: true })
     //findOrCreate() : trouve un élément s'il existe et en crée un s'il n'existe pas encore
     return Student.findOrCreate({
       where: {
-        name: "Angel Litongo"
+        name: "Angel@l NVJ"
+      },
+      defaults : {
+        school_year: 20
       }
     });
   })
