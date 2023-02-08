@@ -129,16 +129,28 @@ Student.sync({ alter: true })
     // });
 
     //findOrCreate() : trouve un élément s'il existe et en crée un s'il n'existe pas encore
-    return Student.findOrCreate({
-      where: {
-        name: "Angel@l NVJ"
-      },
-      defaults : {
-        school_year: 20
-      }
-    });
-  })
-  .then((data) => {
-    console.log(data);
+    // return Student.findOrCreate({
+    //   where: {
+    //     name: "Angel@l NVJ"
+    //   },
+    //   defaults : {
+    //     school_year: 20
+    //   }
+    // });
+
+ //findAndCountAll() : trouve les éléments s'ils existent et les comptes
+ return Student.findAndCountAll({
+    where: {
+      name: "Angel@l NVJ"
+    },
+    raw : true
+  });
+
+  }).then((data) => {
+    // console.log(data); utilisé pour les précedentes méthoes
+    const { count, rows} = data;
+    console.log(count); 
+    console.log(rows); 
+
   })
   .catch((err) => console.error("Quelque chose s'est mal passé", err));
