@@ -107,10 +107,13 @@ Student.sync({ alter: true }).then(() => {
 //autre méthode que toJson() pour afficher les données d'une table en console
 // return Student.findAll();
 // return Student.findAll({ row:true});
-return Student.findAll({
-    where : { school_year: 8 },
-    raw : true
-});
+// return Student.findAll({
+//     where : { school_year: 8 },
+//     raw : true
+// });
+
+//FindByPk()
+return Student.findByPk(4);
 
 }).then((data) => {
   console.log(data);
