@@ -113,9 +113,21 @@ Student.sync({ alter: true }).then(() => {
 // });
 
 //FindByPk()
-return Student.findByPk(4);
+// return Student.findByPk(4);
+
+//FindOne()
+return Student.findOne({ 
+    where : {
+        school_year : {
+            [Op.or] : {
+                [Op.lt] : 12,
+                [Op.eq] : null,
+            }
+        }
+    }
+});
 
 }).then((data) => {
-  console.log(data);
+  console.log(data.toJSON());
 })
 .catch((err) => console.error("Quelque chose s'est mal passé", err));
