@@ -28,6 +28,10 @@ const Student = sequelize.define(
       validate: {
         len: [4 - 20],
       },
+      get() { //getters : recuperation des données en majuscule
+        const recupereValEnMajuscule = this.getDataValue('name');
+        return recupereValEnMajuscule.toUpperCase();
+      }
     },
     favorite_class: {
       type: DataTypes.STRING(25),
@@ -139,18 +143,22 @@ Student.sync({ alter: true })
     // });
 
  //findAndCountAll() : trouve les éléments s'ils existent et les comptes
- return Student.findAndCountAll({
-    where: {
-      name: "Angel@l NVJ"
-    },
-    raw : true
-  });
+//  return Student.findOne({
+//     where: {
+//       name: "Angel@l NVJ"
+//     },
+//     raw : true
+//   });
 
+    return Student.findOne();
   }).then((data) => {
     // console.log(data); utilisé pour les précedentes méthoes
-    const { count, rows} = data;
-    console.log(count); 
-    console.log(rows); 
+    //utiliser avec findAndCountAll()
+    // const { count, rows} = data;
+    // console.log(count); 
+    // console.log(rows); 
+
+    console.log(data.name);
 
   })
   .catch((err) => console.error("Quelque chose s'est mal passé", err));
