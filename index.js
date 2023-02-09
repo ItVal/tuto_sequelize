@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const bcrypt = require("bcrypt");
+const zlib = require("zlib");
 
 //connexion à la DB
 const sequelize = new Sequelize(
@@ -63,6 +64,13 @@ const User = sequelize.define("user", {
   description : {
     type: DataTypes.STRING,
     set(value) {
+      const descCompresed = zlib.deflateSync(value).toString('base64');
+      this.setDataValue('description', descCompresed);
+    },
+    get(){
+      const value = this.getDataValue('description');
+      const descUncompresed = zlib.deflateSync(Buffer.from(value, 'base64'));
+      return descUncompresed;
 
     }
   }
@@ -142,14 +150,17 @@ User.sync({ alter: true }).then(() => {
 //models query (requete) : max, min & sum() methode
 //return User.sum("age"); //additione les ages
 return User.create({
-  user_id : 30,
-  username: 'leila specteur',
-  password: "leila Specteur"
+  user_id : 33,
+  username: 'leila coop',
+  password: "leila Coop",
+  description: "This is my description"
 })
 
 }).then((data) => {
       console.log(data.username);
       console.log(data.password);
+      console.log(data.description);
+
   })
   .catch((err) => {
     console.log("quelques choses s'est mal passée", err)
