@@ -37,11 +37,13 @@ const Fournisseur = sequelize.define("fournisseur", {
     type: DataTypes.STRING,
     unique: true,
     validate : { //validation email correct
-        isEmail : true,
+        // isEmail : true,
+        isIn : ['val@litongo.org', 'val@litongo.cd'] //ici on impose que pour chaque entrée sur ce champ, que ça soit seulement une parmi les adresses spécifier ici
     }
   },
   age : {
     type: DataTypes.INTEGER,
+    defaultValue: 18,
     validate : {
         isOldEnough(value) { //validation de l'age
             if (value<18){
@@ -56,8 +58,8 @@ const Fournisseur = sequelize.define("fournisseur", {
 Fournisseur.sync({ alter: true }).then(() =>{
     return Fournisseur.create({ 
         name : 'A Litongo',
-        email : 'alitongo@gmail.com',
-        age : 15
+        email : 'nas@litongo.org',
+        age : 25
     })
 }).then((data) =>{
     console.log(data.toJSON())
