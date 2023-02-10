@@ -36,17 +36,20 @@ const Fournisseur = sequelize.define("fournisseur", {
   email : {
     type: DataTypes.STRING,
     unique: true,
+    validate : {
+        isEmail : true,
+    }
   }
 
 })
 
 Fournisseur.sync({ alter: true }).then(() =>{
     return Fournisseur.create({ 
-        name : 'Litongo',
-        email : 'litongo@gmail.com',
+        name : 'Litongo B',
+        email : 'litongo',
     })
 }).then((data) =>{
     console.log(data.toJSON())
 }).catch((err) =>{
-    return console.log('buuuuuuuug', err)
+    return console.log('Buuuuuuuu===============uuuuuuuuuuug', err)
 })
