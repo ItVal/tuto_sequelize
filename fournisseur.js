@@ -33,6 +33,9 @@ const Fournisseur = sequelize.define("fournisseur", {
     type: DataTypes.STRING,
 
   },
+  password : {
+    type: DataTypes.STRING,
+  },
   email : {
     type: DataTypes.STRING,
     allowNull: true,
@@ -62,11 +65,24 @@ const Fournisseur = sequelize.define("fournisseur", {
     }
   }
 
+},
+{
+    //function validation 
+    validate: {
+        usernamePasswordMatch(){
+            if(this.name == this.password){
+                throw new Error("name and password can't be the same")
+            }else{
+                console.log("success")
+            }
+        }
+    }
 })
 
 Fournisseur.sync({ alter: true }).then(() =>{
     return Fournisseur.create({ 
         name : 'A Litongo',
+        password: 'A Litongo',
         email : null,
         age : 25
     })
