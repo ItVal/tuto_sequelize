@@ -49,6 +49,9 @@ const Fournisseur = sequelize.define("fournisseur", {
             if (value<18){
                 throw new Error ('Vous êtes encore mineur')
             }
+        },
+        isNumeric: { //impose que les valeurs entrées sur ce champ ne soient que de chiffres
+            msg: "Entrez uniquement les chiffre svp"
         }
     }
   }
@@ -59,7 +62,7 @@ Fournisseur.sync({ alter: true }).then(() =>{
     return Fournisseur.create({ 
         name : 'A Litongo',
         email : 'nas@litongo.org',
-        age : 25
+        age : "25 ans d'age"
     })
 }).then((data) =>{
     console.log(data.toJSON())
