@@ -35,10 +35,16 @@ const Fournisseur = sequelize.define("fournisseur", {
   },
   email : {
     type: DataTypes.STRING,
+    allowNull: true,
     unique: true,
     validate : { //validation email correct
         // isEmail : true,
-        isIn : ['val@litongo.org', 'val@litongo.cd'] //ici on impose que pour chaque entrée sur ce champ, que ça soit seulement une parmi les adresses spécifier ici
+       // isIn : ['val@litongo.org', 'val@litongo.cd'], //ici on impose que pour chaque entrée sur ce champ, que ça soit seulement une parmi les adresses spécifier ici
+        myEmailValidator(value) {//interdir que ce cham soit null (sans valeur). càd le rendre obligatoire
+            if (value == null) {
+                throw new Error ("Email can't be null");
+            }
+        }
     }
   },
   age : {
@@ -61,8 +67,8 @@ const Fournisseur = sequelize.define("fournisseur", {
 Fournisseur.sync({ alter: true }).then(() =>{
     return Fournisseur.create({ 
         name : 'A Litongo',
-        email : 'nas@litongo.org',
-        age : "25 ans d'age"
+        email : null,
+        age : 25
     })
 }).then((data) =>{
     console.log(data.toJSON())
