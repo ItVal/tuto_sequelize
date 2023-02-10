@@ -40,22 +40,23 @@ const User = sequelize.define("user", {
   },
   username: {
     type: DataTypes.STRING,
-    allowNull: false,
-    get() { //getters : recuperation des données en majuscule
-      const myMajValue = this.getDataValue('username');
-      return myMajValue.toUpperCase();
-    }
+    // allowNull: false,
+    // get() { //getters : recuperation des données en majuscule
+    //   const myMajValue = this.getDataValue('username');
+    //   return myMajValue.toUpperCase();
+    // }
   },
   email: {
     type: DataTypes.STRING,
+    unique: true,
   },
   password: {
     type: DataTypes.STRING,
-    set(value) { //Setters () permet d'hasher le mot de passe avant de le stocké dans la data base. dans cet exemple, nous utilisons l'algorith d'hashage bcrypt.
-      const salt = bcrypt.genSaltSync(12);
-      const hash = bcrypt.hashSync(value, salt);
-      this.setDataValue('password', hash);
-    }
+    // set(value) { //Setters () permet d'hasher le mot de passe avant de le stocké dans la data base. dans cet exemple, nous utilisons l'algorith d'hashage bcrypt.
+    //   const salt = bcrypt.genSaltSync(12);
+    //   const hash = bcrypt.hashSync(value, salt);
+    //   this.setDataValue('password', hash);
+    // }
   },
   age: {
     type: DataTypes.INTEGER,
@@ -63,24 +64,25 @@ const User = sequelize.define("user", {
   },
   description : {
     type: DataTypes.STRING,
-    set(value) { //compression de données à l'aide de zlib en base64
-      const descCompresed = zlib.deflateSync(value).toString('base64');
-      this.setDataValue('description', descCompresed);
-    },
-    get(){
-      const value = this.getDataValue('description');
-      const descUncompresed = zlib.deflateSync(Buffer.from(value, 'base64'));
-      return descUncompresed;
+    // set(value) { //compression de données à l'aide de zlib en base64
+    //   const descCompresed = zlib.deflateSync(value).toString('base64');
+    //   this.setDataValue('description', descCompresed);
+    // },
+    // get(){
+    //   const value = this.getDataValue('description');
+    //   const descUncompresed = zlib.deflateSync(Buffer.from(value, 'base64'));
+    //   return descUncompresed;
 
-    }
+    // }
   },
   detailUser : {
     type : DataTypes.VIRTUAL,
-    get() { //utilisation du champ virtuel
-      return `${this.username} ${this.description}`;
-    }
+    // get() { //utilisation du champ virtuel
+    //   return `${this.username} ${this.description}`;
+    // }
 
-  }
+  },
+
 });
 
 // sync() : crée la table si ça n'exite pas et ne fait rien si elle existe déjà. sync({force : true}) : crée la table si ça n'exite pas et supprime l'autre si ça exite, sync({alter : true}): Si la taple exite déjà dans la db, on la met à jour avec les nouvelles informations du modèle
@@ -169,11 +171,21 @@ User.sync({ alter: true }).then(() => {
 //       console.log(data.description);
 
 //   })
-//
-return User.findOne({ where: { username: 'leila coop'}})
+//affichage virtual fields
+//return User.findOne({ where: { username: 'leila coop'}})
+
+//unique value
+return User.create({ 
+          user_id: 45,
+          username:"Litongo",
+          email:"litongofafa2@gmail.com",
+          password:"Litongo123",
+          age: 20,
+          description: 'nouvelle entrée'
+})
 
 }).then((data) => {
-  console.log(data.detailUser);
+  console.log(data.toJSON());
 })
   .catch((err) => {
     console.log("quelques choses s'est mal passée", err)
