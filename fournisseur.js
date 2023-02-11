@@ -80,14 +80,17 @@ const Fournisseur = sequelize.define("fournisseur", {
 })
 
 Fournisseur.sync({ alter: true }).then(() =>{
-    return Fournisseur.create({ 
-        name : 'A Litongo',
-        password: 'A Litongo',
-        email : null,
-        age : 25
-    })
+    // return Fournisseur.create({ 
+    //     name : 'A Litongo',
+    //     password: 'A Litongo',
+    //     email : null,
+    //     age : 25
+    // })
+    return sequelize.query(`UPDATE fournisseurs SET age = 50 WHERE name = 'A Litongo'`)
 }).then((data) =>{
-    console.log(data.toJSON())
+    [result, metadata] = data;
+    console.log(result);
+    console.log(metadata);
 }).catch((err) =>{
     return console.log('Buuuuuuuu===============uuuuuuuuuuug', err)
 })
