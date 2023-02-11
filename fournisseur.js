@@ -86,8 +86,10 @@ Fournisseur.sync({ alter: true }).then(() =>{
     //     email : null,
     //     age : 25
     // })
-    return sequelize.query(`UPDATE fournisseurs SET age = 50 WHERE name = 'A Litongo'`)
-}).then((data) =>{
+    //return sequelize.query(`UPDATE fournisseurs SET age = 50 WHERE name = 'A Litongo'`)
+    return sequelize.query(`SELECT * FROM fournisseurs`, {type : sequelize.QueryTypes.SELECT})
+
+  }).then((data) =>{
     [result, metadata] = data;
     console.log(result);
     console.log(metadata);
