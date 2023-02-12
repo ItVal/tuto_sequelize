@@ -87,12 +87,14 @@ Fournisseur.sync({ alter: true }).then(() =>{
     //     age : 25
     // })
     //return sequelize.query(`UPDATE fournisseurs SET age = 50 WHERE name = 'A Litongo'`)
-    return sequelize.query(`SELECT * FROM fournisseurs`, {type : sequelize.QueryTypes.SELECT})
+    //return sequelize.query(`SELECT * FROM fournisseurs`, {type : sequelize.QueryTypes.SELECT})
+    return sequelize.query(`SELECT * FROM fournisseurs LIMIT 2`, {model : Fournisseur, plain : true })
 
   }).then((data) =>{
-    [result, metadata] = data;
-    console.log(result);
-    console.log(metadata);
+    // [result, metadata] = data;
+    // console.log(result);
+    // console.log(metadata);
+    console.log(data);
 }).catch((err) =>{
     return console.log('Buuuuuuuu===============uuuuuuuuuuug', err)
 })
