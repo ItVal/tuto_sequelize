@@ -3,7 +3,6 @@ const { DataTypes, Op } = Sequelize;
 const dotenv = require("dotenv");
 dotenv.config();
 
-
 //connexion à la DB
 const sequelize = new Sequelize(
   "tuto_sequelize",
@@ -23,24 +22,34 @@ const myFunction = async () => {
 myFunction();
 
 //modèle
-module.exports = (sequelize, DataTypes) => {
-    const Post = sequelize.define("Post", {
-      id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-      },
-      title: {
-        type: DataTypes.STRING,
-      },
-      author: {
-        type: DataTypes.STRING,
-      },
-      content: {
-        type: DataTypes.STRING,
-      },
-    }, {
-      paranoid: true
-    });
-    return Post;
-  };
+const Post = sequelize.define(
+  "Post",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+    },
+    author: {
+      type: DataTypes.STRING,
+    },
+    content: {
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    paranoid: true,
+  }
+);
+
+Post.sync({ alter: true }).then(() => {
+  console.log("table created");
+  return Post.create({
+    title: "MY post",
+    author: "Top Coding",
+    content: "Comment comprendre notre directeur ?",
+  });
+});
