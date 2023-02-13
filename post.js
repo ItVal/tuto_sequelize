@@ -41,12 +41,13 @@ const Post = sequelize.define(
     },
   },
   {
-    paranoid: true,
+    paranoid: true, //pour une suppression reversive
   }
 );
 
 Post.sync({ alter: true }).then(() => {
   console.log("table created");
+  //acause de ça "paranoid" sur notre model, cette suppression sera reversive ()
   return Post.destroy({where : { title: 'MY training' }}).then(() => {
     console.log("table deleted");
   }).catch((err) => {
