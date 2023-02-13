@@ -47,9 +47,11 @@ const Post = sequelize.define(
 
 Post.sync({ alter: true }).then(() => {
   console.log("table created");
-  return Post.create({
-    title: "MY post",
-    author: "Top Coding",
-    content: "Comment comprendre notre directeur ?",
-  });
-});
+  return Post.destroy({where : { title: 'MY training' }}).then(() => {
+    console.log("table deleted");
+  }).catch((err) => {
+    console.log(err);
+  })
+})
+.catch((err) => console.log("Quelque chose s'est mal passé", err));
+
