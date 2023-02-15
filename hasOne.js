@@ -28,58 +28,73 @@ const Country = sequelize.define(
     contryName: {
       type: DataTypes.STRING,
       unique: true,
-    }
+    },
   },
   {
     timestamps: false,
   }
 );
 const Capital = sequelize.define(
-    "capital",
-    {
-      capitalName: {
-        type: DataTypes.STRING,
-        unique: true,
-      }
+  "capital",
+  {
+    capitalName: {
+      type: DataTypes.STRING,
+      unique: true,
     },
-    {
-      timestamps: false,
-    }
-  );
+  },
+  {
+    timestamps: false,
+  }
+);
 Country.hasOne(Capital);
 
-sequelize.sync({alter: true}).then(() => {
+let country, capital;
+
+sequelize
+  .sync({ alter: true })
+  .then(() => {
     //insertions
-    Country.bulkCreate([
-        {
-            contryName: "DR Congo"
-        },
-        {
-            contryName: "Rwanda"
-        },
-        {
-            contryName: "Belgique"
-        },
-        {
-            contryName: "France"
-        },
-    ]);
+    //     Country.bulkCreate([
+    //         {
+    //             contryName: "DR Congo"
+    //         },
+    //         {
+    //             contryName: "Rwanda"
+    //         },
+    //         {
+    //             contryName: "Belgique"
+    //         },
+    //         {
+    //             contryName: "France"
+    //         },
+    //     ]);
 
-Capital.bulkCreate([
-    {
-        capitalName : "Kinshasa"
-    },
-    {
-        capitalName : "Kigali"
-    },
-    {
-        capitalName : "Bruxel"
-    },
-    {
-        capitalName : "Paris"
-    },
-])
+    // Capital.bulkCreate([
+    //     {
+    //         capitalName : "Kinshasa"
+    //     },
+    //     {
+    //         capitalName : "Kigali"
+    //     },
+    //     {
+    //         capitalName : "Bruxel"
+    //     },
+    //     {
+    //         capitalName : "Paris"
+    //     },
+    // ])
 
-}).catch(err => {
+    //affectation hasOne
+    return Capital.findOne({ where: { capitalName: "Kinshasa" } });
+  })
+  .then((data) => {
+    capital = data;
+    return Country.findOne({ where: { contryName: "DR Congo" } });
+  })
+  .then((data) => {
+    country = data;
+    country.setCapital(capital);
+  })
+  .catch((err) => {
     console.log("quelques choses s'est mal passé", err);
-})
+  });
