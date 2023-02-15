@@ -49,6 +49,36 @@ const Capital = sequelize.define(
 Country.hasOne(Capital);
 
 sequelize.sync({alter: true}).then(() => {
+    //insertions
+    Country.bulkCreate([
+        {
+            contryName: "DR Congo"
+        },
+        {
+            contryName: "Rwanda"
+        },
+        {
+            contryName: "Belgique"
+        },
+        {
+            contryName: "France"
+        },
+    ]);
+
+Capital.bulkCreate([
+    {
+        capitalName : "Kinshasa"
+    },
+    {
+        capitalName : "Kigali"
+    },
+    {
+        capitalName : "Bruxel"
+    },
+    {
+        capitalName : "Paris"
+    },
+])
 
 }).catch(err => {
     console.log("quelques choses s'est mal passé", err);
