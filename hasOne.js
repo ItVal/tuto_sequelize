@@ -48,8 +48,7 @@ const Capital = sequelize.define(
 );
 Country.hasOne(Capital);
 
-let country, capital;
-
+let country;
 sequelize
   .sync({ alter: true })
   .then(() => {
@@ -85,15 +84,26 @@ sequelize
     // ])
 
     //affectation hasOne
-    return Capital.findOne({ where: { capitalName: "Kinshasa" } });
-  })
-  .then((data) => {
-    capital = data;
+    //     return Capital.findOne({ where: { capitalName: "Kinshasa" } });
+    //   })
+    //   .then((data) => {
+    //     capital = data;
+    //     return Country.findOne({ where: { contryName: "DR Congo" } });
+    //   })
+    //   .then((data) => {
+    //     country = data;
+    //     country.setCapital(capital);
+    //   })
+
+    //visualisation pays - capital
     return Country.findOne({ where: { contryName: "DR Congo" } });
   })
   .then((data) => {
     country = data;
-    country.setCapital(capital);
+    return country.getCapital();
+  })
+  .then((data) => {
+    console.log(data.toJSON());
   })
   .catch((err) => {
     console.log("quelques choses s'est mal passé", err);
