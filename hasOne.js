@@ -46,9 +46,12 @@ const Capital = sequelize.define(
     timestamps: false,
   }
 );
-Country.hasOne(Capital);
+//hasOne : relation un-à-un : capital qui reçoit la clé(étrangère) de country
+//Country.hasOne(Capital);  
+//belongsTo : relation un-à-un : capital qui reçoit tjrs la clé(étrangère) de country
+Capital.belongsTo(Country);  
 
-let country;
+let country, capital;
 sequelize
   .sync({ alter: true })
   .then(() => {
@@ -110,15 +113,28 @@ sequelize
   // });
 
   //creation d'un champs et l'affecter direction avec sa cléf étrangère
-  return Country.create({ contryName: "USA" });
-})
-.then((data) => {
-  country = data;
-  return country.createCapital({ capitalName : "Washington, D.C "});
-})
-.then((data) => {
-  console.log(data.toJSON());
-})
+//   return Country.create({ contryName: "USA" });
+// })
+// .then((data) => {
+//   country = data;
+//   return country.createCapital({ capitalName : "Washington, D.C "});
+// })
+// .then((data) => {
+//   console.log(data.toJSON());
+// })
+
+ //affectation belongsTo
+        return Country.findOne({ where: { contryName: "Rwanda" } });
+      })
+      .then((data) => {
+        country = data;
+
+        return Capital.findOne({ where: { capitalName: "Kigali" } });
+      })
+      .then((data) => {
+        capital = data;
+        capital.setCountry(country);
+      })
 .catch((err) => {
   console.log("quelques choses s'est mal passé", err);
 });
