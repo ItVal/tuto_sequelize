@@ -96,15 +96,29 @@ sequelize
     //   })
 
     //visualisation pays - capital
-    return Country.findOne({ where: { contryName: "DR Congo" } });
-  })
-  .then((data) => {
-    country = data;
-    return country.getCapital();
-  })
-  .then((data) => {
-    console.log(data.toJSON());
-  })
-  .catch((err) => {
-    console.log("quelques choses s'est mal passé", err);
-  });
+  //   return Country.findOne({ where: { contryName: "DR Congo" } });
+  // })
+  // .then((data) => {
+  //   country = data;
+  //   return country.getCapital();
+  // })
+  // .then((data) => {
+  //   console.log(data.toJSON());
+  // })
+  // .catch((err) => {
+  //   console.log("quelques choses s'est mal passé", err);
+  // });
+
+  //creation d'un champs et l'affecter direction avec sa cléf étrangère
+  return Country.create({ contryName: "USA" });
+})
+.then((data) => {
+  country = data;
+  return country.createCapital({ capitalName : "Washington, D.C "});
+})
+.then((data) => {
+  console.log(data.toJSON());
+})
+.catch((err) => {
+  console.log("quelques choses s'est mal passé", err);
+});
