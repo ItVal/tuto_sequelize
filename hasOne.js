@@ -49,7 +49,12 @@ const Capital = sequelize.define(
 //hasOne : relation un-à-un : capital qui reçoit la clé(étrangère) de country
 //Country.hasOne(Capital);  
 //belongsTo : relation un-à-un : capital qui reçoit tjrs la clé(étrangère) de country
-Capital.belongsTo(Country);  
+//Capital.belongsTo(Country);  
+
+//Suppression en cascade de la clé étrangère
+Country.hasOne(Capital, {onDelete: "CASCADE"});  
+//belongsTo : relation un-à-un : capital qui reçoit tjrs la clé(étrangère) de country
+Capital.belongsTo(Country, {onDelete: "CASCADE"});
 
 let country, capital;
 sequelize
@@ -124,17 +129,25 @@ sequelize
 // })
 
  //affectation belongsTo
-        return Country.findOne({ where: { contryName: "France" } });
-      })
-      .then((data) => {
-        country = data;
+      //   return Country.findOne({ where: { contryName: "France" } });
+      // })
+      // .then((data) => {
+      //   country = data;
 
-        return Capital.findOne({ where: { capitalName: "Paris" } });
+      //   return Capital.findOne({ where: { capitalName: "Paris" } });
+      // })
+      // .then((data) => {
+      //   capital = data;
+      //   capital.setCountry(country);
+      // })
+
+      //Suppression en cascade de la clée étranère 
+         return Country.destroy({ where: { contryName: "France" } });
       })
       .then((data) => {
-        capital = data;
-        capital.setCountry(country);
+        console.log(data);
       })
+
 .catch((err) => {
   console.log("quelques choses s'est mal passé", err);
 });
