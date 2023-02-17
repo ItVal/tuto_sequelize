@@ -124,12 +124,12 @@ sequelize
 // })
 
  //affectation belongsTo
-        return Country.findOne({ where: { contryName: "Rwanda" } });
+        return Country.findOne({ where: { contryName: "France" } });
       })
       .then((data) => {
         country = data;
 
-        return Capital.findOne({ where: { capitalName: "Kigali" } });
+        return Capital.findOne({ where: { capitalName: "Paris" } });
       })
       .then((data) => {
         capital = data;
