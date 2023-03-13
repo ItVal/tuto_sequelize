@@ -40,11 +40,11 @@ const User = sequelize.define("user", {
   },
   username: {
     type: DataTypes.STRING,
-    // allowNull: false,
-    // get() { //getters : recuperation des données en majuscule
-    //   const myMajValue = this.getDataValue('username');
-    //   return myMajValue.toUpperCase();
-    // }
+    allowNull: false,
+    get() { //getters : recuperation des données en majuscule
+      const myMajValue = this.getDataValue('username');
+      return myMajValue.toUpperCase();
+    }
   },
   email: {
     type: DataTypes.STRING,
@@ -52,11 +52,11 @@ const User = sequelize.define("user", {
   },
   password: {
     type: DataTypes.STRING,
-    // set(value) { //Setters () permet d'hasher le mot de passe avant de le stocké dans la data base. dans cet exemple, nous utilisons l'algorith d'hashage bcrypt.
-    //   const salt = bcrypt.genSaltSync(12);
-    //   const hash = bcrypt.hashSync(value, salt);
-    //   this.setDataValue('password', hash);
-    // }
+    set(value) { //Setters () permet d'hasher le mot de passe avant de le stocké dans la data base. dans cet exemple, nous utilisons l'algorith d'hashage bcrypt.
+      const salt = bcrypt.genSaltSync(12);
+      const hash = bcrypt.hashSync(value, salt);
+      this.setDataValue('password', hash);
+    }
   },
   age: {
     type: DataTypes.INTEGER,
@@ -64,22 +64,22 @@ const User = sequelize.define("user", {
   },
   description : {
     type: DataTypes.STRING,
-    // set(value) { //compression de données à l'aide de zlib en base64
-    //   const descCompresed = zlib.deflateSync(value).toString('base64');
-    //   this.setDataValue('description', descCompresed);
-    // },
-    // get(){
-    //   const value = this.getDataValue('description');
-    //   const descUncompresed = zlib.deflateSync(Buffer.from(value, 'base64'));
-    //   return descUncompresed;
+    set(value) { //compression de données à l'aide de zlib en base64
+      const descCompresed = zlib.deflateSync(value).toString('base64');
+      this.setDataValue('description', descCompresed);
+    },
+    get(){
+      const value = this.getDataValue('description');
+      const descUncompresed = zlib.deflateSync(Buffer.from(value, 'base64'));
+      return descUncompresed;
 
-    // }
+    }
   },
   detailUser : {
     type : DataTypes.VIRTUAL,
-    // get() { //utilisation du champ virtuel
-    //   return `${this.username} ${this.description}`;
-    // }
+    get() { //utilisation du champ virtuel
+      return `${this.username} ${this.description}`;
+    }
 
   },
 
@@ -87,15 +87,15 @@ const User = sequelize.define("user", {
 
 // sync() : crée la table si ça n'exite pas et ne fait rien si elle existe déjà. sync({force : true}) : crée la table si ça n'exite pas et supprime l'autre si ça exite, sync({alter : true}): Si la taple exite déjà dans la db, on la met à jour avec les nouvelles informations du modèle
 User.sync({ alter: true }).then(() => {
-  //     //une insertion des données dans la table
-//     return User.create({
-//         user_id: 2,
-//         username:"Valentin",
-//         email:"valnas@gmail.com",
-//         password:"valnas123",
-//         age: 26
-//      })
-//   })
+      //une insertion des données dans la table
+    return User.create({
+        user_id: 2,
+        username:"Valentin",
+        email:"valnas@gmail.com",
+        password:"valnas123",
+        age: 26
+     })
+  })
 
 //plusieurs insertions à la fois
 return User.bulkCreate([
@@ -128,7 +128,7 @@ return User.bulkCreate([
 //return User.findAll({
 //attributes: [[sequelize.fn("AVG", sequelize.col("age")), "Moyenne d'Age"]],
 // attributes : {exclude: ['password']} //afiche tout sauf le password
-//attributes : ['username'], where: {age : 30}, //affiche tous les noms dont l'age est égal à 30
+attributes : ['username'], {where: {age : 30}} //affiche tous les noms dont l'age est égal à 30
 // limit : 2, //affiche les deux première entrées
 // order : [["age", "ASC"]] // trie par ordre croissant (ASC) ou decroissant (DESC)
 // attributes: ["username",
@@ -149,30 +149,30 @@ return User.bulkCreate([
 //})
 
 //models query (requete) : update() methode
-// return User.update({ username: 'lela' }, { 
-//   where: { age: 19 } //partout où age égal à 19, on modifie le nom pa lela
-//   });
+return User.update({ username: 'lela' }, { 
+  where: { age: 19 } //partout où age égal à 19, on modifie le nom pa lela
+  });
 
-// //models query (requete) : destroy() methode
-//  return User.destroy({where : { username: 'leila' }}); //supprime tous les enregistrements dont le nom égal à lela
+//models query (requete) : destroy() methode
+ return User.destroy({where : { username: 'leila' }}); //supprime tous les enregistrements dont le nom égal à lela
 
 //models query (requete) : max, min & sum() methode
-//return User.sum("age"); //additione les ages
-// return User.create({
-//   user_id : 33,
-//   username: 'leila coop',
-//   password: "leila Coop",
-//   description: "This is my description"
-// })
+return User.sum("age"); //additione les ages
+return User.create({
+  user_id : 33,
+  username: 'leila coop',
+  password: "leila Coop",
+  description: "This is my description"
+})
 
-// }).then((data) => {
-//       console.log(data.username);
-//       console.log(data.password);
-//       console.log(data.description);
+.then((data) => {
+      console.log(data.username);
+      console.log(data.password);
+      console.log(data.description);
 
-//   })
+  })
 //affichage virtual fields
-//return User.findOne({ where: { username: 'leila coop'}})
+return User.findOne({ where: { username: 'leila coop'}})
 
 //unique value
 return User.create({ 
@@ -183,8 +183,7 @@ return User.create({
           age: 20,
           description: 'nouvelle entrée'
 })
-
-}).then((data) => {
+.then((data) => {
   console.log(data.toJSON());
 })
   .catch((err) => {
