@@ -157,22 +157,22 @@ return User.bulkCreate([
 //  return User.destroy({where : { username: 'leila' }}); //supprime tous les enregistrements dont le nom égal à lela
 
 //models query (requete) : max, min & sum() methode
-//return User.sum("age"); //additione les ages
-// return User.create({
-//   user_id : 33,
-//   username: 'leila coop',
-//   password: "leila Coop",
-//   description: "This is my description"
-// })
+return User.sum("age"); //additione les ages
+return User.create({
+  user_id : 33,
+  username: 'leila coop',
+  password: "leila Coop",
+  description: "This is my description"
+})
 
-// }).then((data) => {
-//       console.log(data.username);
-//       console.log(data.password);
-//       console.log(data.description);
+}).then((data) => {
+      console.log(data.username);
+      console.log(data.password);
+      console.log(data.description);
 
-//   })
+  })
 //affichage virtual fields
-//return User.findOne({ where: { username: 'leila coop'}})
+return User.findOne({ where: { username: 'leila coop'}})
 
 //unique value
 return User.create({ 
@@ -183,8 +183,7 @@ return User.create({
           age: 20,
           description: 'nouvelle entrée'
 })
-
-}).then((data) => {
+.then((data) => {
   console.log(data.toJSON());
 })
   .catch((err) => {
