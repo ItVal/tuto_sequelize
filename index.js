@@ -87,15 +87,15 @@ const User = sequelize.define("user", {
 
 // sync() : crée la table si ça n'exite pas et ne fait rien si elle existe déjà. sync({force : true}) : crée la table si ça n'exite pas et supprime l'autre si ça exite, sync({alter : true}): Si la taple exite déjà dans la db, on la met à jour avec les nouvelles informations du modèle
 User.sync({ alter: true }).then(() => {
-  //     //une insertion des données dans la table
-//     return User.create({
-//         user_id: 2,
-//         username:"Valentin",
-//         email:"valnas@gmail.com",
-//         password:"valnas123",
-//         age: 26
-//      })
-//   })
+      //une insertion des données dans la table
+    return User.create({
+        user_id: 2,
+        username:"Valentin",
+        email:"valnas@gmail.com",
+        password:"valnas123",
+        age: 26
+     })
+  })
 
 //plusieurs insertions à la fois
 return User.bulkCreate([
