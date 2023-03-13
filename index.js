@@ -52,11 +52,11 @@ const User = sequelize.define("user", {
   },
   password: {
     type: DataTypes.STRING,
-    // set(value) { //Setters () permet d'hasher le mot de passe avant de le stocké dans la data base. dans cet exemple, nous utilisons l'algorith d'hashage bcrypt.
-    //   const salt = bcrypt.genSaltSync(12);
-    //   const hash = bcrypt.hashSync(value, salt);
-    //   this.setDataValue('password', hash);
-    // }
+    set(value) { //Setters () permet d'hasher le mot de passe avant de le stocké dans la data base. dans cet exemple, nous utilisons l'algorith d'hashage bcrypt.
+      const salt = bcrypt.genSaltSync(12);
+      const hash = bcrypt.hashSync(value, salt);
+      this.setDataValue('password', hash);
+    }
   },
   age: {
     type: DataTypes.INTEGER,
@@ -128,7 +128,7 @@ return User.bulkCreate([
 //return User.findAll({
 //attributes: [[sequelize.fn("AVG", sequelize.col("age")), "Moyenne d'Age"]],
 // attributes : {exclude: ['password']} //afiche tout sauf le password
-//attributes : ['username'], where: {age : 30}, //affiche tous les noms dont l'age est égal à 30
+attributes : ['username'], {where: {age : 30}} //affiche tous les noms dont l'age est égal à 30
 // limit : 2, //affiche les deux première entrées
 // order : [["age", "ASC"]] // trie par ordre croissant (ASC) ou decroissant (DESC)
 // attributes: ["username",
