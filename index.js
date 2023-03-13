@@ -165,7 +165,7 @@ return User.create({
   description: "This is my description"
 })
 
-}).then((data) => {
+.then((data) => {
       console.log(data.username);
       console.log(data.password);
       console.log(data.description);
