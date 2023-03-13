@@ -64,16 +64,16 @@ const User = sequelize.define("user", {
   },
   description : {
     type: DataTypes.STRING,
-    // set(value) { //compression de données à l'aide de zlib en base64
-    //   const descCompresed = zlib.deflateSync(value).toString('base64');
-    //   this.setDataValue('description', descCompresed);
-    // },
-    // get(){
-    //   const value = this.getDataValue('description');
-    //   const descUncompresed = zlib.deflateSync(Buffer.from(value, 'base64'));
-    //   return descUncompresed;
+    set(value) { //compression de données à l'aide de zlib en base64
+      const descCompresed = zlib.deflateSync(value).toString('base64');
+      this.setDataValue('description', descCompresed);
+    },
+    get(){
+      const value = this.getDataValue('description');
+      const descUncompresed = zlib.deflateSync(Buffer.from(value, 'base64'));
+      return descUncompresed;
 
-    // }
+    }
   },
   detailUser : {
     type : DataTypes.VIRTUAL,
