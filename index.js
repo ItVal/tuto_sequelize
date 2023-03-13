@@ -40,11 +40,11 @@ const User = sequelize.define("user", {
   },
   username: {
     type: DataTypes.STRING,
-    // allowNull: false,
-    // get() { //getters : recuperation des données en majuscule
-    //   const myMajValue = this.getDataValue('username');
-    //   return myMajValue.toUpperCase();
-    // }
+    allowNull: false,
+    get() { //getters : recuperation des données en majuscule
+      const myMajValue = this.getDataValue('username');
+      return myMajValue.toUpperCase();
+    }
   },
   email: {
     type: DataTypes.STRING,
