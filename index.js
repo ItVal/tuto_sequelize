@@ -77,9 +77,9 @@ const User = sequelize.define("user", {
   },
   detailUser : {
     type : DataTypes.VIRTUAL,
-    // get() { //utilisation du champ virtuel
-    //   return `${this.username} ${this.description}`;
-    // }
+    get() { //utilisation du champ virtuel
+      return `${this.username} ${this.description}`;
+    }
 
   },
 
